@@ -2,9 +2,7 @@ import { Todo } from '../types/Todo';
 import { client } from '../utils/fetchClient';
 
 export const USER_ID = 1415;
-/*For exapmple:
-https://mate.academy/students-api/todos?userId=1415
-*/
+
 export const getTodos = () => {
   return client.get<Todo[]>(`/todos?userId=${USER_ID}`);
 };

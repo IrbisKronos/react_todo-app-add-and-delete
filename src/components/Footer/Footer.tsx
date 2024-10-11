@@ -39,7 +39,6 @@ export const Footer: React.FC<Props> = ({
         {activeTodos} {correctItemTerm} left
       </span>
 
-      {/* Active link should have the 'selected' class */}
       <nav className="filter" data-cy="Filter">
         {Object.values(FilterCriteria).map(filterType => (
           <a

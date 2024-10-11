@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react';
+import classNames from 'classnames';
+
 import { Todo } from '../../types/Todo';
 import { USER_ID } from '../../api/todos';
 
@@ -47,11 +49,10 @@ export const Header: React.FC<Props> = ({
       {/* this button should have `active` class only if all todos are completed */}
       <button
         type="button"
-        className="todoapp__toggle-all active"
+        className={classNames('todoapp__toggle-all', { active: false })}
         data-cy="ToggleAllButton"
       />
 
-      {/* Add a todo on form submit */}
       <form onSubmit={handleSubmit}>
         <input
           data-cy="NewTodoField"
