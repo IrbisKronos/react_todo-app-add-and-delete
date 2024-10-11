@@ -54,7 +54,7 @@ export const App: React.FC = () => {
     return filterTodos(todos, filter);
   }, [todos, filter]);
 
-  function addTodo({ title, userId, completed }: Todo) {
+  const addTodo = ({ title, userId, completed }: Todo) => {
     setIsLoading(true);
 
     const newTempTodo = {
@@ -79,9 +79,9 @@ export const App: React.FC = () => {
         setTitleTodo('');
         setTempTodo(null);
       });
-  }
+  };
 
-  function updateTodo(updatedTodo: Todo) {
+  const updateTodo = (updatedTodo: Todo) => {
     setLoadingTodoIds(ids => [...ids, updatedTodo.id]);
 
     todoServise
@@ -103,9 +103,9 @@ export const App: React.FC = () => {
         setLoadingTodoIds(ids => ids.filter(id => id !== updatedTodo.id)); // Remove todo id from loading state
         setTitleTodo('');
       });
-  }
+  };
 
-  function deleteTodo(todoId: number) {
+  const deleteTodo = (todoId: number) => {
     setLoadingTodoIds(ids => [...ids, todoId]); // Add id to the array
 
     todoServise
@@ -121,7 +121,7 @@ export const App: React.FC = () => {
       .finally(() => {
         setLoadingTodoIds(ids => ids.filter(id => id !== todoId)); // Delete id after completion
       });
-  }
+  };
 
   const handleFilter = (filterType: FilterCriteria) => {
     setFilter(filterType);
