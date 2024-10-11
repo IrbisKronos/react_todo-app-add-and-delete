@@ -5,7 +5,7 @@ import { USER_ID } from '../../api/todos';
 type Props = {
   addTodo: (newTodo: Todo) => void;
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
-  loading: boolean;
+  isLoading: boolean;
   titleTodo: string;
   setTitleTodo: React.Dispatch<React.SetStateAction<string>>;
 };
@@ -13,25 +13,27 @@ type Props = {
 export const Header: React.FC<Props> = ({
   addTodo,
   setErrorMessage,
-  loading,
+  isLoading,
   titleTodo,
   setTitleTodo,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (inputRef.current && !loading) {
+    if (inputRef.current && !isLoading) {
       inputRef.current.focus();
     }
-  }, [loading]);
+  }, [isLoading]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!titleTodo.trim()) {
       setErrorMessage('Title should not be empty');
+
       return;
     }
+
     addTodo({
       id: 0,
       userId: USER_ID,
@@ -60,7 +62,7 @@ export const Header: React.FC<Props> = ({
           onChange={event => {
             setTitleTodo(event.target.value);
           }}
-          disabled={loading}
+          disabled={isLoading}
           ref={inputRef}
         />
       </form>

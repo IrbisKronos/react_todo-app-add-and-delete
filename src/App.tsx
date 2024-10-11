@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { Todo } from './types/Todo';
@@ -21,7 +19,7 @@ const filterTodos = (tasks: Todo[], filterCriteria: FilterCriteria) => {
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [filter, setFilter] = useState<FilterCriteria>(FilterCriteria.All);
   const [titleTodo, setTitleTodo] = useState('');
   const [tempTodo, setTempTodo] = useState<Todo | null>(null);
@@ -29,7 +27,7 @@ export const App: React.FC = () => {
   const [loadingTodoIds, setLoadingTodoIds] = useState<number[]>([]);
 
   useEffect(() => {
-    setLoading(true);
+    setIsLoading(true);
 
     todoServise
       .getTodos()
@@ -38,7 +36,7 @@ export const App: React.FC = () => {
         setErrorMessage('Unable to load todos');
       })
       .finally(() => {
-        setLoading(false);
+        setIsLoading(false);
       });
   }, []);
 
@@ -57,7 +55,7 @@ export const App: React.FC = () => {
   }, [todos, filter]);
 
   function addTodo({ title, userId, completed }: Todo) {
-    setLoading(true);
+    setIsLoading(true);
 
     const newTempTodo = {
       id: 0,
@@ -65,6 +63,7 @@ export const App: React.FC = () => {
       title,
       completed: false,
     };
+
     setTempTodo(newTempTodo);
 
     todoServise
@@ -76,7 +75,7 @@ export const App: React.FC = () => {
         setErrorMessage('Unable to add todo');
       })
       .finally(() => {
-        setLoading(false);
+        setIsLoading(false);
         setTitleTodo('');
         setTempTodo(null);
       });
@@ -91,6 +90,7 @@ export const App: React.FC = () => {
         setTodos(currentTodos => {
           const newTodo = [...currentTodos];
           const index = newTodo.findIndex(post => post.id === updatedTodo.id);
+
           newTodo.splice(index, 1, todo);
 
           return newTodo;
@@ -137,7 +137,7 @@ export const App: React.FC = () => {
         <Header
           addTodo={addTodo}
           setErrorMessage={setErrorMessage}
-          loading={loading}
+          isLoading={isLoading}
           titleTodo={titleTodo}
           setTitleTodo={setTitleTodo}
         />
@@ -146,11 +146,12 @@ export const App: React.FC = () => {
           todos={getFilteredTodos}
           updateTodo={updateTodo}
           deleteTodo={deleteTodo}
+          isLoading={isLoading}
           loadingTodoIds={loadingTodoIds}
           tempTodo={tempTodo}
         />
 
-        {!!todos.length && !loading && (
+        {!!todos.length && (
           <Footer
             handleFilter={handleFilter}
             filter={filter}
