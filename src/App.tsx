@@ -70,13 +70,13 @@ export const App: React.FC = () => {
       .createTodo({ title, userId, completed })
       .then(newTodo => {
         setTodos(currentTodos => [...currentTodos, newTodo]);
+        setTitleTodo('');
       })
       .catch(() => {
-        setErrorMessage('Unable to add todo');
+        setErrorMessage('Unable to add a todo');
       })
       .finally(() => {
         setIsLoading(false);
-        setTitleTodo('');
         setTempTodo(null);
       });
   };
@@ -116,7 +116,7 @@ export const App: React.FC = () => {
         );
       })
       .catch(() => {
-        setErrorMessage('Unable to delete todo');
+        setErrorMessage('Unable to delete a todo');
       })
       .finally(() => {
         setLoadingTodoIds(ids => ids.filter(id => id !== todoId)); // Delete id after completion
@@ -129,12 +129,15 @@ export const App: React.FC = () => {
 
   const activeTodos = todos.filter(todo => !todo.completed).length || 0;
 
+  const completedTodos = todos.filter(todo => todo.completed).length || 0;
+
   return (
     <div className="todoapp">
       <h1 className="todoapp__title">todos</h1>
 
       <div className="todoapp__content">
         <Header
+          todos={todos}
           addTodo={addTodo}
           setErrorMessage={setErrorMessage}
           isLoading={isLoading}
@@ -158,6 +161,7 @@ export const App: React.FC = () => {
             todos={getFilteredTodos}
             deleteTodo={deleteTodo}
             activeTodos={activeTodos}
+            completedTodos={completedTodos}
           />
         )}
       </div>

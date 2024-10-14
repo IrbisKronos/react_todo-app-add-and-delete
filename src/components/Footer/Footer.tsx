@@ -10,6 +10,7 @@ type Props = {
   todos: Todo[] | null;
   deleteTodo: (todoId: number) => void;
   activeTodos: number;
+  completedTodos: number;
 };
 
 const capitalizeFirstLetter = (str: string) => {
@@ -22,6 +23,7 @@ export const Footer: React.FC<Props> = ({
   todos,
   deleteTodo,
   activeTodos,
+  completedTodos,
 }) => {
   const handleClearCompleted = () => {
     todos?.forEach(todo => {
@@ -63,6 +65,7 @@ export const Footer: React.FC<Props> = ({
         className="todoapp__clear-completed"
         data-cy="ClearCompletedButton"
         onClick={handleClearCompleted}
+        disabled={completedTodos === 0}
       >
         Clear completed
       </button>

@@ -5,6 +5,7 @@ import { Todo } from '../../types/Todo';
 import { USER_ID } from '../../api/todos';
 
 type Props = {
+  todos: Todo[];
   addTodo: (newTodo: Todo) => void;
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
   isLoading: boolean;
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export const Header: React.FC<Props> = ({
+  todos,
   addTodo,
   setErrorMessage,
   isLoading,
@@ -25,7 +27,7 @@ export const Header: React.FC<Props> = ({
     if (inputRef.current && !isLoading) {
       inputRef.current.focus();
     }
-  }, [isLoading]);
+  }, [todos, isLoading]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
